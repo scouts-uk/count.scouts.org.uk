@@ -1,6 +1,8 @@
 ---
 # Site specific configurations...
-  logins_enabled: false
+  logins_enabled:   false
+  use_google_fonts: true
+  development:      false
 # Database configuration
   db:
     name: census2022
