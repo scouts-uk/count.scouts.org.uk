@@ -35,7 +35,7 @@ The Scout Association's Census system - Head count summary - CSS
 input, select, option, html { font-family: "Nunito Sans",arial,sans-serif }
 /* CSS */
 input, select               { font-size: 1em; box-sizing: border-box; border: 1px solid #000 }
-select                      { padding: 0.25em; width: 100% }
+select                      { width:100%; padding: 0.25em;}
 h1                          { font-size: 1.25em; text-align: center; margin-top:0 }
 body                        { max-width: 800px; margin: 0 auto; padding: 0 1em; position: relative; font-size: 1.4em; color: #000; background-color:#fff }
 header                      { margin: 0.5em auto; position: relative; width: 100%; height: 0; padding-bottom: 28.41%; overflow: hidden; display: block }

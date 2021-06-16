@@ -33,7 +33,6 @@ use File::Basename qw(dirname);
 use Cwd qw(abs_path);
 
 my $base  = dirname(dirname(abs_path(__FILE__)));
-my $config = LoadFile( $base.'/config.yaml' );
 
 my @FF = (
   [ 'nunito',  '"Nunito Sans",arial,sans-serif', q(@font-face{font-family:'Nunito Sans';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/nunitosans/v6/pe0qMImSLYBIv1o4X1M8cce9I9s.woff2) format('woff2')}
@@ -41,7 +40,7 @@ my @FF = (
   [ 'arial', 'arial,sans-serif', '' ],
 );
 
-my $font = @ARGV ? $ARGV[0] : ($config->{'use_google_fonts'}?'nunito':'arial');
+my $font = @ARGV ? $ARGV[0] : 'nunito';
 my $inf  = "$base/source/$font.css";
 die "Unable to open file $inf" unless -e $inf;
 

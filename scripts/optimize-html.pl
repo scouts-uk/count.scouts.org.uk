@@ -34,8 +34,8 @@ use File::Basename qw(dirname);
 use Cwd qw(abs_path);
 use YAML::XS qw(LoadFile);
 
-my $base  = dirname(dirname(abs_path(__FILE__)));
-
+my $base   = dirname(dirname(abs_path(__FILE__)));
+my $config = LoadFile( "$base/config.yaml" );
 my $dev = @ARGV;
 my $out = 1;
 
@@ -59,6 +59,7 @@ foreach my $source (keys %files ) {
 sub insert {
   my $fn = $_[0];
   $fn =~ s{-opt}{} if $dev;
+  $fn =~ s{nunito}{arial} unless $config->{'use_google_fonts'};
   print "    Including working/$fn\n";
   open my $fh, '<', "$base/working/$fn";
   my $out = '';

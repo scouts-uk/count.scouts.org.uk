@@ -123,12 +123,21 @@ echo $METHOD-`cat $BASE/working/nunito.css      | openssl $METHOD -binary | open
 echo $METHOD-`cat $BASE/working/arial.css       | openssl $METHOD -binary | openssl base64 -A` >> $BASE/checksums/css-sha.txt
 echo $METHOD-`cat $BASE/working/arial-opt.css   | openssl $METHOD -binary | openssl base64 -A` >> $BASE/checksums/css-sha.txt
 aft=`cat $BASE/checksums/js-sha.txt $BASE/checksums/css-sha.txt | md5sum`;
+echo "$aft - $bef";
 
 $BASE/scripts/generate-csp.pl
 tm
 
-cp $BASE/dist/sections.html $BASE/includes/main-page.php
-cp $BASE/dist/login.html    $BASE/includes/login-page.php
+## Switch in here to decide whether to generate live or dev site...
+if [[ "`cat $BASE/config.yaml | yq e '.development' -`" == "false" ]]
+then
+  cp $BASE/dist/sections.html     $BASE/includes/main-page.php
+  cp $BASE/dist/login.html        $BASE/includes/login-page.php
+else
+  cp $BASE/dist/sections-dev.html $BASE/includes/main-page.php
+  cp $BASE/dist/login-dev.html    $BASE/includes/login-page.php
+fi
+
 
 ## Calculate sizes of HTML files and "data" elements embedded within
 SIZE_PNG=`stat --printf="%s" $BASE/working/favicon.png.b64`
