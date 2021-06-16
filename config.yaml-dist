@@ -1,0 +1,27 @@
+---
+# Site specific configurations...
+  logins_enabled: false
+# Database configuration
+  db:
+    name: census2022
+    user: db_user
+    pass: db_pass
+# Compass authentication configuration.
+  auth:
+    url: auth_url
+    # Headers for authentication
+    head:
+      - auth_head...
+      - ...
+    # Template for body of authentication
+    template:
+      - auth_tmpl...
+      - auth_tmpl...
+      - ...
+# User cookie name/crypt/secret etc
+  crypt:
+    cookie: cookie_name
+    method: crypt_method
+    key:    crypt_key
+    secret: cookie_secret
+

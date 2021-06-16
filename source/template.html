@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+========================================================================
+
+The Scout Association's Census system - Head count summary
+
+========================================================================
+
+  This file is part of The Scout Association's Census system
+  (ScoutCensus).
+
+  ScoutCensus is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ScoutCensus is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ScoutCensus. If not, see <https://www.gnu.org/licenses/>.
+
+========================================================================
+
+  Copyright The Scout Association - 2021
+  Developer - James Smith (james@curtissmith.me.uk)
+
+========================================================================
+-->
+<html lang="en-GB">
+<head>
+<link rel="icon" type="image/png" href="[[favicon.png.b64]]">
+<title>The Scouts - Youth membership count - October 2021</title>
+<meta name="description" content="Collecting information about the numbers of young people in The Scout Association October 2021">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<style>[[nunito-opt.css]]</style>
+</head>
+<body>
+  <span id="a">HELP</span>
+  <!-- span id="z">User: XXXX <span>Log out</span></span -->
+  <header>[[logo-compact.svg]]</header>
+  <h1>Youth membership count - October 2021</h1>
+  <main>
+  <form method="post" id="f" action="/">
+  <p class="q"><label for="c">Select County/Area/Region/Island:</label></p>
+    <select autofocus id="c"></select>
+    <div id="e">
+      <p class="q"><label for="d">Select District:</label></p>
+      <select id="d"></select>
+      <div id="h">
+        <p class="q"><label for="u">Select Explorer Scout Unit:</label></p>
+        <select id="u"></select>
+        <p class="q"><label for="g">or Scout Group:</label></p>
+        <select id="g"></select>
+        <div id="t">
+          <p class="q"><label for="s">Select Section:</label></p>
+          <select id="s"></select>
+        </div>
+        <div id="n">
+          <p class="q">
+            <label for="y">Number of youth members:</label>
+            <input name="y" type="number" min="0" id="y">
+          </p>
+          <p>
+            <input type="button" value="Send numbers &raquo;">
+          </p>
+        </div>
+      </div>
+    </div>
+  </form>
+  </main>
+  <footer>
+    <p>&copy; Copyright <a href="https://www.scouts.org.uk">The Scout Association 2001-2021</a>. All Rights Reserved.</p>
+    <p>Charity numbers: <a href="https://register-of-charities.charitycommission.gov.uk/charity-search/-/charity-details/306101">306101 (England and Wales)</a> and <a href="https://www.oscr.org.uk/about-charities/search-the-register/charity-details?number=SC038437">SC038437 (Scotland)</a>.</p>
+    <p>Registered address: The Scout Association, Gilwell Park, Chingford, London, England E4 7QW</p>
+  </footer>
+  <div id="px"></div>
+  <div id="p"></div>
+  <script>[[script-opt.js]]</script>
+</body>
+</html>

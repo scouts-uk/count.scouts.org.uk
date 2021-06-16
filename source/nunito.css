@@ -1,0 +1,95 @@
+/*
+========================================================================
+
+The Scout Association's Census system - Head count summary - CSS
+
+========================================================================
+
+  This file is part of The Scout Association's Census system
+  (ScoutCensus).
+
+  ScoutCensus is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  ScoutCensus is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with ScoutCensus. If not, see <https://www.gnu.org/licenses/>.
+
+========================================================================
+
+  Copyright The Scout Association - 2021
+  Developer - James Smith (james@curtissmith.me.uk)
+
+========================================================================
+*/
+
+/* External fonts - Google Nunito sans */
+@font-face{font-family:'Nunito Sans';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/nunitosans/v6/pe0qMImSLYBIv1o4X1M8cce9I9s.woff2) format('woff2')}
+@font-face{font-family:'Nunito Sans';font-style:normal;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/nunitosans/v6/pe03MImSLYBIv1o4X1M8cc8GBs5tU1E.woff2) format('woff2')}
+input, select, option, html { font-family: "Nunito Sans",arial,sans-serif }
+/* CSS */
+input, select               { font-size: 1em; box-sizing: border-box; border: 1px solid #000 }
+select                      { padding: 0.25em; width: 100% }
+h1                          { font-size: 1.25em; text-align: center; margin-top:0 }
+body                        { max-width: 800px; margin: 0 auto; padding: 0 1em; position: relative; font-size: 1.4em; color: #000; background-color:#fff }
+header                      { margin: 0.5em auto; position: relative; width: 100%; height: 0; padding-bottom: 28.41%; overflow: hidden; display: block }
+svg                         { position: absolute; left: 0; right: 0; top: 0; bottom: 0; width: 100%; height: 100% }
+label                       { padding: 0.25em 0; width: 100%; box-sizing: border-box; display: block }
+label span                  { display: block; width: 100%; font-weight: bold; padding-bottom: 1em }
+label input                 { display: block; width: 100%; border: 2px solid #000; padding: 0.25em; box-sizing: border-box }
+
+/* Page footer (copyright & links) */
+footer         { margin: 3em 0 1em; font-size: 0.7em }
+footer p       { margin: 0 }
+footer a       { text-decoration: none ; font-weight: bold; color: #000 }
+
+footer a:hover { text-decoration: none ; font-weight: bold; color: #009 }
+input[type="submit"] { font-size: 1.5em; font-weight: bold; display: block; margin: 1em 0 }
+input[type="button"] { width: 100%; padding: 0.5em 0; font-weight: bold; height: 100%; font-size: 1.5em; box-sizing: border-box }
+
+.q                          { font-weight: bold }
+.footer { display: inline-block; margin: 0.5em; background-color: #ddd; padding: 0.5em; font-weight: bold; font-size: 0.8em; }
+
+
+
+/* #n - form... */
+p:last-of-type input        { text-align: center; display: block; box-sizing: border-box }
+#y                          { width: 100%; margin-top: 1em; display: block; padding: 0.25em }
+#n                          { display: flex; align-items: stretch; padding-top: 1em; flex-wrap: wrap }
+#n p                        { flex: 0 0 100%; margin: 0.25em 0}
+#n p:last-of-type           { text-align: right; margin: 0.25em 0 }
+/* Make CTA larger */
+/*#login input { width: 100%; padding: 0.25em }*/
+
+/* Help link button at the top of the page */
+#a { position: absolute; top: 0; right: 0; z-index: 5; display: inline-block; padding: 2px 0.5em; background-color: #ccc; cursor: pointer; font-weight: bold }
+#a:hover   { background-color: #ddd }
+
+
+/* Popup panel */
+#px     { display: none; position: fixed; top: 0; right: 0; height: 100vh; width: 100%; background-color: #000; opacity: 0.1; z-index: 10 }
+#p      { display: none; position: fixed; max-width: 800px; margin: 0 auto; top: 0; bottom: 0; left: 0; right: 0; padding: 1em; background-color: #ccc; z-index: 12; overflow: auto; box-sizing: border-box }
+/*.footer { position: absolute; bottom: 0; right: 0; margin: 0.5em; background-color: #ddd; padding: 0.5em; font-weight: bold; font-size: 0.8em; }*/
+#z span { display: inline-block; background-color: #ccc; font-weight: bold; padding: 0.25em; margin:0.25em 0.5em }
+
+@media (min-width: 640px) { /* Tweaks to make the header smaller on mobile devices */
+  h1          { font-size: 1.5em }
+  header      { width: 80%; }
+  #a      { top:0.5em; right: 1.5em }
+}
+
+/* mobile tweaks to make the number/button fields wrap */
+@media (min-width: 820px) {
+  label { padding: 0.25em 2em 0.25em 0; }
+  input[type="button"]      { padding: 0.25em }
+  #p { margin: 0 auto; top: 20vh; bottom: 20vh; }
+  #n { flex-wrap: nowrap }
+  #n p { flex: 1 1 50% }
+  #n p:last-of-type { margin: 0.25em 0 0.25em 2em }
+}
