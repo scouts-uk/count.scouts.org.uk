@@ -123,7 +123,6 @@ echo $METHOD-`cat $BASE/working/nunito.css      | openssl $METHOD -binary | open
 echo $METHOD-`cat $BASE/working/arial.css       | openssl $METHOD -binary | openssl base64 -A` >> $BASE/checksums/css-sha.txt
 echo $METHOD-`cat $BASE/working/arial-opt.css   | openssl $METHOD -binary | openssl base64 -A` >> $BASE/checksums/css-sha.txt
 aft=`cat $BASE/checksums/js-sha.txt $BASE/checksums/css-sha.txt | md5sum`;
-echo "$aft - $bef";
 
 $BASE/scripts/generate-csp.pl
 tm
