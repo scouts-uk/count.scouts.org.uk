@@ -73,9 +73,12 @@ var _={
   _.hide('#h');
   _.hide('#t');
   _.hide('#n');
-  var d_cache = {}, c_s = _.qs('#c'), d_s = _.qs('#d'), g_s = _.qs('#g'), u_s = _.qs('#u'), s_s = _.qs('#s'),
+  var d_cache = {}, c_s = _.qs('#c'), d_s = _.qs('#d'), g_s = _.qs('#g'), s_s = _.qs('#s'),
       d_str, g_str, s_str, ov = '<option value="', ox = '</option>', det;
-  function x(n,d) { return ov+'">== Select '+n+' =='+ox + d.map(function(_){ return ov+_[0]+'">'+_[1]+' ('+(10000000+_[0])+')'+ox;}).join(''); }
+  function _x(d) { return d.map(function(_){ return ov+_[0]+'">'+_[1]+' ('+(10000000+_[0])+')'+ox;}    ).join(''); }
+  function x(n,d) { return ov+'">== Select '+n+' =='+ox + _x(d); }
+  function xx(n,d,dd) { return ov+'">== Select '+n+' =='+ox + '<optgroup label="Scout Groups">'+_x(d)+
+   '</optgroup><optgroup label="Explorer Scout Units">'+_x(dd)+'</optgroup>'; }
   c_s.innerHTML = x('County',str);
   _.block('#f');
   // Add functionality to the county select drop down.
@@ -126,8 +129,8 @@ var _={
   };
   // Show district - populate the group/unit drop downs and hide the number part of the form...
   function show_district( ) {
-    g_s.innerHTML = x('Group',g_str[0]);
-    u_s.innerHTML = x('Unit',g_str[1]);
+    g_s.innerHTML = xx('Group/Unit',g_str[0],g_str[1]);
+   // u_s.innerHTML = x('Unit',g_str[1]);
     _.block('#h');_.hide('#n');
     _.qs('#h').scrollIntoView();
   }
@@ -137,26 +140,26 @@ var _={
   // Otherwise we populate the section dropdown.
   g_s.onchange = function() {
     var $self = this;
-    u_s.selectedIndex = s_s.selectedIndex = 0;
+    // Check to see if unit!!
+    s_s.selectedIndex = 0;
     _.hide('#n');
     if( this.value === '' ) {
       _.hide('#t');
     } else {
-      s_str = g_str[0].filter( function(_) {return _[0] == $self.value;} ).pop();
-      s_s.innerHTML = x('Section',s_str[2]);
-      _.block('#t');
-      s_s.scrollIntoView();
+      var is_unit = g_str[1].filter( function(_) { return _[0] == $self.value; } ).length;
+      if( is_unit ) {
+        show_form( this.value, 'u' );
+      } else {
+        s_str = g_str[0].filter( function(_) {return _[0] == $self.value;} ).pop();
+        s_s.innerHTML = x('Section',s_str[2]);
+        _.block('#t');
+        s_s.scrollIntoView();
+      }
     }
   };
   // Add functionality to the unit drop down
   // Reset group/section index, hide section from
   // Show numbers form
-  u_s.onchange = function() {
-    g_s.selectedIndex = s_s.selectedIndex = 0 ; // reset group/section indecies
-    _.hide('#t');
-    // Show hide form as appropiate...
-    show_form(this.value,'u');
-  };
   // Section change..
   // Show hide form as appropiate...
   s_s.onchange = function() {
