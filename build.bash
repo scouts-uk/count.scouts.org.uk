@@ -49,8 +49,9 @@ $BASE/scripts/write-arial.pl
 tm
 
 echo
-echo "  Base 64 encoding favicon.png"
+echo "  Base 64 encoding favicon.png/build ico file"
 ## Convert favicon.ico to base64 encoded data string
+convert -resize x16 -gravity center -crop 16x16+0+0 $BASE/source/favicon.png -flatten -colors 16 $BASE/htdocs/favicon.ico
 echo "data:image/png;base64,$(base64 -w 0 $BASE/source/favicon.png)"\
   > $BASE/working/favicon.png.b64
 tm
