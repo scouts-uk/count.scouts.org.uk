@@ -44,11 +44,13 @@ function set_cookie( $res ) {
 
 function get_cookie() {
   if( ! LOGINS_ENABLED ) {
+error_log("***");
     return 1;
   }
   if( !isset( $_COOKIE[ USER_COOKIE_NAME ] ) ) {
     return false;
   }
+error_log("*X*");
   $crypt = new Cryptor( CRYPT_KEY, CRYPT_METHOD );
   $dec = $crypt->decrypt64( $_COOKIE[ USER_COOKIE_NAME ] );
   if( ! $dec ) {

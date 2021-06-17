@@ -83,7 +83,7 @@ var _={
   _.block('#f');
   // Add functionality to the county select drop down.
   // When changes we hide the form, the section area and the group area..
-  /*_.click('#z', function() { d.location.href = '/logout'; });*/
+  if( _.qs('#z') ) { _.click('#z', function() { d.location.href = '/logout'; } ); }
   c_s.onchange = function() {
     var $self = this;
     _.hide('#n'); _.hide('#t'); _.hide('#h');

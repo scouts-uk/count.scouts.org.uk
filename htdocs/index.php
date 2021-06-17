@@ -58,7 +58,7 @@
     exit;
   }
   if( count($params) == 0 ) {
-    print preg_replace( '/XXXX/', $user_id,
+    print str_replace( 'XXXX', LOGINS_ENABLED ? '<span id="z">User: '.$user_id.' <span>Log out</span></span>' : '',
       file_get_contents('../includes/main-page.php') );
     exit;
   }

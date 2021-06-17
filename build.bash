@@ -1,5 +1,7 @@
 #!/bin/bash
 
+a=$(($(date +%s%N)/1000000));
+b=$a
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do
   BASE="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
@@ -34,9 +36,7 @@ echo "  Create PHP config file"
 $BASE/scripts/make-config.pl
 tm
 
-cp $BASE/source/logo-compact.svg $BASE/source/logo.svg $BASE/working
-a=$(($(date +%s%N)/1000000));
-b=$a
+cp $BASE/source/logo-compact.svg $BASE/source/logo.svg $BASE/source/login.js $BASE/working
 echo
 echo "  Retrieving districts from database and updating sections.js"
 ## Retrieve data from census database (and build nested json structure)
@@ -65,13 +65,26 @@ tm
 ## Compress javascript using Google closure compiler
 JS=`sha512sum $BASE/working/script.js`
 JS_OLD=`if [[ -f "$BASE/checksums/script.js-sum" ]]; then cat $BASE/checksums/script.js-sum; fi`
+LI=`sha512sum $BASE/working/login.js`
+LI_OLD=`if [[ -f "$BASE/checksums/login.js-sum" ]]; then cat $BASE/checksums/login.js-sum; fi`
 if [[ "$JS" != "$JS_OLD" ]]
 then
   echo
-  echo "  Compressing Javascript"
+  echo "  Compressing Javascript [script]"
   echo -n '/*<![CDATA[*/'`/usr/bin/java -jar /www/utilities/jars/compiler.jar --js $BASE/working/script.js --compilation_level SIMPLE_OPTIMIZATIONS`'/*]]>*/' > $BASE/working/script-opt.js
   c=$(($(date +%s%N)/1000000));printf '      Duration: %6dms    Elapsed: %6dms' "$((c-b))" "$((c-a))";b=$c;echo
   sha512sum $BASE/working/script.js > $BASE/checksums/script.js-sum
+else
+  echo
+  echo "  Javascript up to date"
+fi
+if [[ "$LI" != "$LI_OLD" ]]
+then
+  echo
+  echo "  Compressing Javascript [login]"
+  echo -n '/*<![CDATA[*/'`/usr/bin/java -jar /www/utilities/jars/compiler.jar --js $BASE/working/login.js --compilation_level SIMPLE_OPTIMIZATIONS`'/*]]>*/' > $BASE/working/login-opt.js
+  c=$(($(date +%s%N)/1000000));printf '      Duration: %6dms    Elapsed: %6dms' "$((c-b))" "$((c-a))";b=$c;echo
+  sha512sum $BASE/working/login.js > $BASE/checksums/login.js-sum
 else
   echo
   echo "  Javascript up to date"
@@ -119,6 +132,8 @@ echo "  Generating CSP"
 bef=`cat $BASE/checksums/js-sha.txt $BASE/checksums/css-sha.txt | md5sum`;
 echo $METHOD-`cat $BASE/working/script-opt.js   | openssl $METHOD -binary | openssl base64 -A` >  $BASE/checksums/js-sha.txt
 echo $METHOD-`cat $BASE/working/script.js       | openssl $METHOD -binary | openssl base64 -A` >> $BASE/checksums/js-sha.txt
+echo $METHOD-`cat $BASE/working/login.js        | openssl $METHOD -binary | openssl base64 -A` >> $BASE/checksums/js-sha.txt
+echo $METHOD-`cat $BASE/working/login-opt.js    | openssl $METHOD -binary | openssl base64 -A` >> $BASE/checksums/js-sha.txt
 echo $METHOD-`cat $BASE/working/nunito-opt.css  | openssl $METHOD -binary | openssl base64 -A` >  $BASE/checksums/css-sha.txt
 echo $METHOD-`cat $BASE/working/nunito.css      | openssl $METHOD -binary | openssl base64 -A` >> $BASE/checksums/css-sha.txt
 echo $METHOD-`cat $BASE/working/arial.css       | openssl $METHOD -binary | openssl base64 -A` >> $BASE/checksums/css-sha.txt
