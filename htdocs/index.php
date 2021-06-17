@@ -31,10 +31,9 @@
 
   $ip      = $_SERVER['HTTP_X_FORWARDED_FOR'];
   $user_id = get_cookie();
-  $params  = isset($_SERVER['REQUEST_URI'])
-           ? array_values(array_filter(explode('/',$_SERVER['REQUEST_URI'])))
+  $params  = isset($_SERVER['SCRIPT_URL'])
+           ? array_values(array_filter(explode('/',$_SERVER['SCRIPT_URL'])))
            : []; 
-
 // What to do if the user is not logged in
   if( ! $user_id ) {
     // Check to see if they are trying to login in 
