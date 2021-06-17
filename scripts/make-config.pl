@@ -66,7 +66,7 @@ printf {$fh} q(<?php
 // Version history:
 //  2021-06-01 - importing.
 
-const LOGINS_ENABLED   = false;
+const LOGINS_ENABLED   = %s;
 
 // Database configuration - stores information about Sections/Groups....
 const DB_NAME          = '%s';
@@ -85,6 +85,7 @@ const CRYPT_KEY        = '%s';
 const CS_SECRET        = '%s';
 
 ),
+  $config->{'logins_enabled'} ? 'true' : 'false',
   @{$config->{'db'}}{qw(name user pass)},
   $config->{'auth'}{'url'},
   join( q(', '), @{ $config->{'auth'}{'head'}     } ),
