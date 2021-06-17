@@ -42,10 +42,10 @@ manipulation of webpages and transmission of data. See:
 // js5 package... see
 var _={
   qs:    function(el,s) {   if('string'===typeof el) { s=el; el=d; }      return s==='' ? el : el.querySelector(s);        },
-  st:    function(el,di) {  this.qs(el).style.display=di;           },
-  block: function(el) {     this.st(el,'block');                    },
-  flex:  function(el) {     this.st(el,'flex');                     },
-  hide:  function(el) {     this.st(el,'none');                     },
+  st:    function(el,di) {  this.qs(el).style.display=di; },
+  block: function(el) {     this.st(el,'block');          },
+  flex:  function(el) {     this.st(el,'flex');           },
+  hide:  function(el) {     this.st(el,'none');           },
   click: function(el,f) {   var t = this.qs(el); if( t ) t.onclick = f; },
   change: function(el,f) {  var t = this.qs(el); if( t ) t.onchange = f; },
   get:   function(url,callback){
@@ -92,6 +92,7 @@ var _={
       d_str = str.filter(function(_){return _[0] == $self.value;} ).pop();
       d_s.innerHTML = x('District',d_str[2]);
       _.block('#e');
+      _.qs('#e').scrollIntoView();
     }
   };
   // Add funtionality to the change district...
@@ -128,6 +129,7 @@ var _={
     g_s.innerHTML = x('Group',g_str[0]);
     u_s.innerHTML = x('Unit',g_str[1]);
     _.block('#h');_.hide('#n');
+    _.qs('#h').scrollIntoView();
   }
   // Add functionality to change group
   // We reset the section and unit drop downs and hide the form
@@ -143,6 +145,7 @@ var _={
       s_str = g_str[0].filter( function(_) {return _[0] == $self.value;} ).pop();
       s_s.innerHTML = x('Section',s_str[2]);
       _.block('#t');
+      s_s.scrollIntoView();
     }
   };
   // Add functionality to the unit drop down
@@ -168,6 +171,7 @@ var _={
     det = f === 'u' ? g_str[1] : s_str[2];
     det = det.filter( function(_) {return _[0] == v;} ).pop();
     _.qs( '#y' ).value = det[2]>0 ? det[2] : '';
+    _.qs('#n').scrollIntoView();
   }
   function message( v ) {
     _.block('#p');
