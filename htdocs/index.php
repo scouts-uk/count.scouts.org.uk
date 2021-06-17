@@ -29,7 +29,7 @@
   include_once( '../includes/authenticate.php' );
   include_once( '../includes/queries.php' );
 
-  $ip      = $_SERVER['HTTP_X_FORWARDED_FOR'];
+  $ip      = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
   $user_id = get_cookie();
   $params  = isset($_SERVER['SCRIPT_URL'])
            ? array_values(array_filter(explode('/',$_SERVER['SCRIPT_URL'])))
@@ -104,6 +104,9 @@
 </p>
 <p>
   Thank you for submitting this information.
+</p>
+<p>
+  You can continue selecting sections to submit additional counts.
 </p>', HTMLentities( $details['name'] ), $details['username'],
        HTMLentities( $details['gp'  ] ), $details['gpid'],
        $details['member_name'], $details['yp_count'] )
