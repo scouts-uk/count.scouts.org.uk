@@ -37,13 +37,13 @@ manipulation of webpages and transmission of data. See:
 ========================================================================
 */
 
-(function(){
+(function $main(){
   'use strict';
   function q(s){ return document.querySelector('#'+s); }
   function b(s){ q(s).style.display='block'; }
   function h(s){ q(s).style.display='none'; }
-  q('p').onclick = q('px').onclick = function() { h('p');h('px'); }
-  q('a').onclick = function() {b('p');b('px');
+  q('p').onclick = q('px').onclick = function $cl() { h('p');h('px'); }
+  q('a').onclick = function $op() {b('p');b('px');
     q('p').innerHTML =
     '<h2>Youth membership count - October 2021</h2>' +
     '<p>Rather than a full census this October, you just need to supply a count of the ' +

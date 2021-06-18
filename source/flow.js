@@ -37,24 +37,72 @@ manipulation of webpages and transmission of data. See:
 ========================================================================
 */
 
-(function(d){
+(function $main(d){
   'use strict';
-// js5 package... see
-var _={
-  qs:    function(el,s) {   if('string'===typeof el) { s=el; el=d; }      return s==='' ? el : el.querySelector(s);        },
-  st:    function(el,di) {  this.qs(el).style.display=di; },
-  block: function(el) {     this.st(el,'block');          },
-  flex:  function(el) {     this.st(el,'flex');           },
-  hide:  function(el) {     this.st(el,'none');           },
-  click: function(el,f) {   var t = this.qs(el); if( t ) t.onclick = f; },
-  change: function(el,f) {  var t = this.qs(el); if( t ) t.onchange = f; },
-  get:   function(url,callback){
-    var h=new XMLHttpRequest(); h.overrideMimeType('application/json'); h.open('GET',url); h.onreadystatechange=function(){
-      if(h.readyState==4&&h.status=='200'){callback(h.responseText);} }; h.send(null);                                     }
-};
-  _.click('#p', function() { _.hide('#p');_.hide('#px'); });
-  _.click('#px',function() { _.hide('#p');_.hide('#px'); });
-  _.click('#a',function() { message(
+  // js5 package... see
+  var _={
+    qs:    function(el) {     return d.querySelector(el);   },
+    st:    function(el,di) {  this.qs(el).style.display=di; },
+    block: function(el) {     this.st(el,'block');          },
+    flex:  function(el) {     this.st(el,'flex');           },
+    hide:  function(el) {     this.st(el,'none');           },
+    click: function(el,f) {   var t = this.qs(el); if( t ) t.onclick = f; },
+    change: function(el,f) {  var t = this.qs(el); if( t ) t.onchange = f; },
+    get:   function(url,callback){
+      var h=new XMLHttpRequest(); h.overrideMimeType('application/json');
+      h.open('GET',url); h.onreadystatechange=function $ors(){
+      if(h.readyState===4&&h.status===200){callback(h.responseText);} }; h.send(null);                                     }
+  };
+
+  var d_cache = {}, c_s = _.qs('#c'), d_s = _.qs('#d'), g_s = _.qs('#g'), s_s = _.qs('#s'),
+      d_str, g_str, s_str, ov = '<option value="', ox = '</option>', det;
+
+  function $x(l) { return l.map(function($){ return ov+$[0]+'">'+$[1]+' ('+(10000000+$[0])+')'+ox;}    ).join(''); }
+  function x(n,l) { return ov+'">== Select '+n+' =='+ox + $x(l); }
+  function xx(n,l,ll) { return ov+'">== Select '+n+' =='+ox + '<optgroup label="Scout Groups">'+$x(l)+
+   '</optgroup><optgroup label="Explorer Scout Units">'+$x(ll)+'</optgroup>'; }
+  function show_form( v, f ) {
+    if( v === '' ) {
+      _.hide('#n');
+    } else {
+      _.flex('#n');
+    }
+    det = f === 'u' ? g_str[1] : s_str[2];
+    var vv = parseInt(v);
+    det = det.filter( function($) {return $[0] === vv;} ).pop();
+    _.qs( '#y' ).value = det[2]>0 ? det[2] : '';
+    _.qs('#n').scrollIntoView();
+  }
+  // Show district - populate the group/unit drop downs and hide the number part of the form...
+  function show_district( ) {
+    g_s.innerHTML = xx('Group/Unit',g_str[0],g_str[1]);
+   // u_s.innerHTML = x('Unit',g_str[1]);
+    _.block('#h');_.hide('#n');
+    _.qs('#h').scrollIntoView();
+  }
+  function update(flag) {
+    _.get('/'+det[0]+'/'+_.qs('#y').value+'/'+flag,function( resptext ) {
+      var res = JSON.parse( resptext );
+      if( res[0] === 'OK' ) {
+        message( res[1] );
+      } else if( res[0] === 'CNF' ) {
+        message( res[1] );
+      }
+    } );
+  }
+  function message( v ) {
+    _.block('#p');
+    _.block('#px');
+    _.qs('#p').innerHTML = v + '<p class="footer">click anywhere to close</p>';
+    var q = _.qs('#p input[type="button"]');
+    if( q ) {
+      q.onclick = function $upd(){ update(1); };
+    }
+  }
+  function rpop() { _.hide('#p');_.hide('#px'); }
+  _.click('#p', rpop );
+  _.click('#px',rpop );
+  _.click('#a',function $op() { message(
     '<h2>Youth membership count - October 2021</h2>' +
     '<p>Rather than a full census this October, you just need to supply a count of the ' +
       'number of young people in your section. To do so please navigate to your section, '+
@@ -68,23 +116,16 @@ var _={
 
   // County/District structure gets inserted here!
   /* */ /* */
-  /*if( _.qs('#login')) { return; }*/
   _.hide('#e');
   _.hide('#h');
   _.hide('#t');
   _.hide('#n');
-  var d_cache = {}, c_s = _.qs('#c'), d_s = _.qs('#d'), g_s = _.qs('#g'), s_s = _.qs('#s'),
-      d_str, g_str, s_str, ov = '<option value="', ox = '</option>', det;
-  function _x(d) { return d.map(function(_){ return ov+_[0]+'">'+_[1]+' ('+(10000000+_[0])+')'+ox;}    ).join(''); }
-  function x(n,d) { return ov+'">== Select '+n+' =='+ox + _x(d); }
-  function xx(n,d,dd) { return ov+'">== Select '+n+' =='+ox + '<optgroup label="Scout Groups">'+_x(d)+
-   '</optgroup><optgroup label="Explorer Scout Units">'+_x(dd)+'</optgroup>'; }
   c_s.innerHTML = x('County',str);
   _.block('#f');
   // Add functionality to the county select drop down.
   // When changes we hide the form, the section area and the group area..
-  if( _.qs('#z') ) { _.click('#z', function() { d.location.href = '/logout'; } ); }
-  c_s.onchange = function() {
+  if( _.qs('#z') ) { _.click('#z', function $lo() { d.location.href = '/logout'; } ); }
+  c_s.onchange = function $cty() {
     var $self = this;
     _.hide('#n'); _.hide('#t'); _.hide('#h');
     // If we unselect the county then we hide the district are...
@@ -92,7 +133,8 @@ var _={
       _.hide('#e');
     // Otherwise we get the District list from str and show the district drop down.
     } else {
-      d_str = str.filter(function(_){return _[0] == $self.value;} ).pop();
+      var v = parseInt($self.value);
+      d_str = str.filter(function($){return $[0] === v;} ).pop();
       d_s.innerHTML = x('District',d_str[2]);
       _.block('#e');
       _.qs('#e').scrollIntoView();
@@ -101,16 +143,16 @@ var _={
   // Add funtionality to the change district...
   // Hide the seciton are...
   // If we unselect district then we hide the group area.
-  // Otherwise we check to see if we have already retrieved district information and stored it in the in
-  // memory cache - if we set g_str to it and call show_district
+  // Otherwise we check to see if we have already retrieved district information
+  // and stored it in the in memory cache - if we set g_str to it and call show_district
   // if we don't then we fetch it from the database, set g_str and then call show_district
-  d_s.onchange = function() {
-    var _dist = this, dist_id = this.value;
+  d_s.onchange = function $dst() {
+    var $dist = this, dist_id = this.value;
     _.hide('#t');
     if( dist_id === '' ) {
       _.hide('#h');
     } else {
-      if( d_cache.hasOwnProperty(dist_id)) { // Already retrieved this district
+      if( Object.prototype.hasOwnProperty.call( d_cache, dist_id )) { // Already got district
         // CHECK VALUE OF district hasn't changed....
         g_str = d_cache[dist_id];         // So grab from cache
         show_district();                        // And render
@@ -118,8 +160,8 @@ var _={
         // Fetch district details - and store in cache before rendering group/unit lists..
         _.get('/'+this.value,function( resptext ) {
           var t_str = JSON.parse( resptext );
-          d_cache[dist_id]=t_str;
-          if( _dist.value == dist_id ) {
+          d_cache[dist_id] = t_str;
+          if( $dist.value === dist_id ) {
             g_str = t_str;
             show_district( );
           }
@@ -127,18 +169,11 @@ var _={
       }
     }
   };
-  // Show district - populate the group/unit drop downs and hide the number part of the form...
-  function show_district( ) {
-    g_s.innerHTML = xx('Group/Unit',g_str[0],g_str[1]);
-   // u_s.innerHTML = x('Unit',g_str[1]);
-    _.block('#h');_.hide('#n');
-    _.qs('#h').scrollIntoView();
-  }
   // Add functionality to change group
   // We reset the section and unit drop downs and hide the form
   // If we deselect the group - then we hide the section drop down
   // Otherwise we populate the section dropdown.
-  g_s.onchange = function() {
+  g_s.onchange = function $grp() {
     var $self = this;
     // Check to see if unit!!
     s_s.selectedIndex = 0;
@@ -146,11 +181,12 @@ var _={
     if( this.value === '' ) {
       _.hide('#t');
     } else {
-      var is_unit = g_str[1].filter( function(_) { return _[0] == $self.value; } ).length;
+      var v = parseInt($self.value);
+      var is_unit = g_str[1].filter( function($) { return $[0] === v; } ).length;
       if( is_unit ) {
         show_form( this.value, 'u' );
       } else {
-        s_str = g_str[0].filter( function(_) {return _[0] == $self.value;} ).pop();
+        s_str = g_str[0].filter( function($) {return $[0] === v;} ).pop();
         s_s.innerHTML = x('Section',s_str[2]);
         _.block('#t');
         s_s.scrollIntoView();
@@ -162,38 +198,8 @@ var _={
   // Show numbers form
   // Section change..
   // Show hide form as appropiate...
-  s_s.onchange = function() {
+  s_s.onchange = function $sct() {
     show_form(this.value,'s');
   };
-  function show_form( v, f ) {
-    if( v === '' ) {
-      _.hide('#n');
-    } else {
-      _.flex('#n');
-    }
-    det = f === 'u' ? g_str[1] : s_str[2];
-    det = det.filter( function(_) {return _[0] == v;} ).pop();
-    _.qs( '#y' ).value = det[2]>0 ? det[2] : '';
-    _.qs('#n').scrollIntoView();
-  }
-  function message( v ) {
-    _.block('#p');
-    _.block('#px');
-    _.qs('#p').innerHTML = v + '<p class="footer">click anywhere to close</p>';
-    var q = _.qs('#p input[type="button"]');
-    if( q ) {
-      q.onclick = function(){ update(1); };
-    }
-  }
-  _.click('#n input[type="button"]',function(){ update(0); });
-  function update(flag) {
-    _.get('/'+det[0]+'/'+_.qs('#y').value+'/'+flag,function( resptext ) {
-      var res = JSON.parse( resptext );
-      if( res.status == 'OK' ) {
-        message( res.message );
-      } else if( res.status == 'CONFIRMATION_REQ' ) {
-        message( res.message );
-      }
-    } );
-  }
+  _.click('#n input[type="button"]',function $sub(){ update(0); });
 }(document));
