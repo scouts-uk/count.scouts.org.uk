@@ -78,9 +78,7 @@
     $details = $db->get_details( $section_no );
     if( $details['yp_count']>0 && $details['yp_count'] != $count ) {
       header('Content-type: application/json');
-      echo json_encode( [
-        'status' => 'CONFIRMATION_REQ',
-        'message' => sprintf( '<h2>%s (%s) of %s (%s)</h2>
+      echo json_encode( [ 'CNF', sprintf( '<h2>%s (%s) of %s (%s)</h2>
   <p>
     Please confirm that you wish to change the number of %ss
     from %d to %d
@@ -96,9 +94,7 @@
     }
   }
   $details = $db->update_counts( $section_no, $count, $user_id, $ip );
-  echo json_encode( [
-    'status' => 'OK',
-    'message' => sprintf( '<h2>%s (%s) of %s (%s)</h2>
+  echo json_encode( [ 'OK', sprintf( '<h2>%s (%s) of %s (%s)</h2>
 <p>
   The number of %ss has been recorded in the database as %d.
 </p>
