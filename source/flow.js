@@ -182,11 +182,12 @@ var _={
     _.qs('#p').innerHTML = v + '<p class="footer">click anywhere to close</p>';
     var q = _.qs('#p input[type="button"]');
     if( q ) {
-      q.onclick = function(){ update(1); };
+      q.onclick = function(e){ e.stopPropagation(); update(1); };
     }
   }
   _.click('#n input[type="button"]',function(){ update(0); });
   function update(flag) {
+    _.block('#px');
     _.get('/'+det[0]+'/'+_.qs('#y').value+'/'+flag,function( resptext ) {
       var res = JSON.parse( resptext );
       if( res.status == 'OK' ) {
