@@ -68,7 +68,7 @@ manipulation of webpages and transmission of data. See:
       _.flex('#n');
     }
     det = f === 'u' ? g_str[1] : s_str[2];
-    var vv = parseInt(v);
+    var vv = parseInt(v,10);
     det = det.filter( function($) {return $[0] === vv;} ).pop();
     _.qs( '#y' ).value = det[2]>0 ? det[2] : '';
     _.qs('#n').scrollIntoView();
@@ -134,7 +134,7 @@ manipulation of webpages and transmission of data. See:
       _.hide('#e');
     // Otherwise we get the District list from str and show the district drop down.
     } else {
-      var v = parseInt($self.value);
+      var v = parseInt($self.value,10);
       d_str = str.filter(function($){return $[0] === v;} ).pop();
       d_s.innerHTML = x('District',d_str[2]);
       _.block('#e');
@@ -182,7 +182,7 @@ manipulation of webpages and transmission of data. See:
     if( this.value === '' ) {
       _.hide('#t');
     } else {
-      var v = parseInt($self.value);
+      var v = parseInt($self.value,10);
       var is_unit = g_str[1].filter( function($) { return $[0] === v; } ).length;
       if( is_unit ) {
         show_form( this.value, 'u' );
