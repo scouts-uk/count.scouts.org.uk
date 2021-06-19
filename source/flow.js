@@ -97,7 +97,7 @@ manipulation of webpages and transmission of data. See:
     _.qs('#p').innerHTML = v + '<p class="footer">click anywhere to close</p>';
     var q = _.qs('#p input[type="button"]');
     if( q ) {
-      q.onclick = function $upd(e){ e.stopPropogation(); update(1); };
+      q.onclick = function $upd(e){ e.stopPropagation(); update(1); };
     }
   }
   function rpop() { _.hide('#p');_.hide('#px'); }
