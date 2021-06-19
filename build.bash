@@ -71,7 +71,7 @@ if [[ "$JS" != "$JS_OLD" ]]
 then
   echo
   echo "  Compressing Javascript [script]"
-  echo -n '/*<![CDATA[*/'`/usr/bin/java -jar /www/utilities/jars/compiler.jar --js $BASE/working/script.js --compilation_level SIMPLE_OPTIMIZATIONS`'/*]]>*/' > $BASE/working/script-opt.js
+  echo -n '/*<![CDATA[*/'`google-closure-compiler --js $BASE/working/script.js -O advanced`'/*]]>*/' > $BASE/working/script-opt.js
   c=$(($(date +%s%N)/1000000));printf '      Duration: %6dms    Elapsed: %6dms' "$((c-b))" "$((c-a))";b=$c;echo
   sha512sum $BASE/working/script.js > $BASE/checksums/script.js-sum
 else
@@ -82,7 +82,7 @@ if [[ "$LI" != "$LI_OLD" ]]
 then
   echo
   echo "  Compressing Javascript [login]"
-  echo -n '/*<![CDATA[*/'`/usr/bin/java -jar /www/utilities/jars/compiler.jar --js $BASE/working/login.js --compilation_level SIMPLE_OPTIMIZATIONS`'/*]]>*/' > $BASE/working/login-opt.js
+  echo -n '/*<![CDATA[*/'`google-closure-compiler --js $BASE/working/login.js -O advanced`'/*]]>*/' > $BASE/working/login-opt.js
   c=$(($(date +%s%N)/1000000));printf '      Duration: %6dms    Elapsed: %6dms' "$((c-b))" "$((c-a))";b=$c;echo
   sha512sum $BASE/working/login.js > $BASE/checksums/login.js-sum
 else
