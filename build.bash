@@ -165,10 +165,10 @@ LOGIN_LIVE=`stat --printf="%s" $BASE/dist/login.html`
 ((SIZE_LIVE_EX=SIZE_LIVE-SIZE_PNG-SIZE_SVG-SIZE_JSON))
 ((LOGIN_DEV_EX=LOGIN_DEV-SIZE_PNG-SIZE_SVG))
 ((LOGIN_LIVE_EX=LOGIN_LIVE-SIZE_PNG-SIZE_SVG))
-LOGIN_LIVE_COMPRESSED=`cat $BASE/dist/login.html | gzip -9 -f - | wc -c`
-LOGIN_DEV_COMPRESSED=`cat $BASE/dist/login-dev.html | gzip -9 -f - | wc -c`
-SIZE_LIVE_COMPRESSED=`cat $BASE/dist/sections.html | gzip -9 -f - | wc -c`
-SIZE_DEV_COMPRESSED=`cat $BASE/dist/sections-dev.html | gzip -9 -f - | wc -c`
+LOGIN_LIVE_COMPRESSED=`cat $BASE/dist/login.html | brotli -c | wc -c`
+LOGIN_DEV_COMPRESSED=`cat $BASE/dist/login-dev.html | brotli -c | wc -c`
+SIZE_LIVE_COMPRESSED=`cat $BASE/dist/sections.html | brotli -c | wc -c`
+SIZE_DEV_COMPRESSED=`cat $BASE/dist/sections-dev.html | brotli -c | wc -c`
 
 ## Just a quick summary....
 echo
