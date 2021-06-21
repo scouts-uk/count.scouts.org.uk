@@ -85,10 +85,15 @@ const CRYPT_KEY        = '%s';
 const CS_SECRET        = '%s';
 
 ),
+  ## logins_enabled
   $config->{'logins_enabled'} ? 'true' : 'false',
+  ## db_XXXX
   @{$config->{'db'}}{qw(name user pass)},
+  ## auth_XXXX
   $config->{'auth'}{'url'},
   join( q(', '), @{ $config->{'auth'}{'head'}     } ),
   join( q(),     @{ $config->{'auth'}{'template'} } ),
+  ## cryptor/cookie/...
   @{$config->{'crypt'}}{qw(cookie method key secret)};
+
 close $fh;

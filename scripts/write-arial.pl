@@ -34,6 +34,7 @@ use Cwd qw(abs_path);
 
 my $base  = dirname(dirname(abs_path(__FILE__)));
 
+## CSS for nunito & arial versions
 my @FF = (
   [ 'nunito',  '"Nunito Sans",arial,sans-serif', q(@font-face{font-family:'Nunito Sans';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/nunitosans/v6/pe0qMImSLYBIv1o4X1M8cce9I9s.woff2) format('woff2')}
 @font-face{font-family:'Nunito Sans';font-style:normal;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/nunitosans/v6/pe03MImSLYBIv1o4X1M8cc8GBs5tU1E.woff2) format('woff2')}) ],
@@ -56,6 +57,7 @@ while(<$fh>) {
   $css .= $_;
 }
 
+## Write out arial/nunito versions to working directory.
 foreach my $f ( @FF ) {
   #next if $f->[0] eq $font;
   my $outf = "$base/working/$f->[0].css";
@@ -66,4 +68,4 @@ foreach my $f ( @FF ) {
     $css;
   close $ofh;
 }
-#input,select, option, body {font-family:"Nunito Sans",arial,sans-serif;}
+

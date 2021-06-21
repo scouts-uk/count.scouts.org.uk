@@ -48,21 +48,23 @@ close $fh;
 open    $fh, q(>), $root.'/apache2/census_csp.conf';
 
 printf {$fh} q(Header always set Content-Security-Policy: "%s"),
-  join '; ',
-    q(default-src 'none'),
-    q(base-uri 'none'),
-    q(connect-src 'self' https://fonts.gstatic.com),
-    q(font-src 'self' https://fonts.gstatic.com),
-    q(style-src 'self' https://fonts.googleapis.com ). $css_sha,
-    q(img-src 'self' data:),
-    q(script-src 'self' 'unsafe-inline' 'strict-dynamic' ). $js_sha,
-    q(form-action 'self'),
-    q(object-src 'none'),
+  ( join '; ',
+    q(style-src                 'self' https://fonts.googleapis.com ).
+                                $css_sha,
+    q(script-src                'self' 'unsafe-inline'
+                                'strict-dynamic' ). $js_sha,
+    q(default-src               'none'),
+    q(base-uri                  'none'),
+    q(connect-src               'self' https://fonts.gstatic.com),
+    q(font-src                  'self' https://fonts.gstatic.com),
+    q(img-src                   'self' data:),
+    q(form-action               'self'),
+    q(object-src                'none'),
     q(block-all-mixed-content),
-    q(frame-ancestors 'none'),
-    q(report-uri /),
+    q(frame-ancestors           'none'),
+    q(report-uri                /),
 #   q(require-trusted-types-for 'script'),
-    q(upgrade-insecure-requests)
+    q(upgrade-insecure-requests) ) =~ s{\s+}{ }gr;
   ;
 
 close $fh;

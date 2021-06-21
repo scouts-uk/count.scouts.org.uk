@@ -44,13 +44,14 @@ my %files = (
   'source/login.html'    => 'dist/login',
 );
 
+## Read each file and insert into includes
 foreach my $source (keys %files ) {
   my $dest = $files{$source};
   my $template='';
   open my $fh, '<', "$base/$source";
   $template .= tidy($_) while <$fh>;
   close $fh;
-
+  ## insert includes
   $template =~ s{\[\[([^\]]+)\]\]}{insert($1)}ge;
   open $fh, '>', $dev ? "$base/$dest-dev.html" : "$base/$dest.html";
   print {$fh} $template;
@@ -58,15 +59,20 @@ foreach my $source (keys %files ) {
 
 sub insert {
   my $fn = $_[0];
+  ## Choose live/dev
   $fn =~ s{-opt}{} if $dev;
+  ## Revert to arial version if not using google fonts
   $fn =~ s{nunito}{arial} unless $config->{'use_google_fonts'};
   print "    Including working/$fn\n";
   open my $fh, '<', "$base/working/$fn";
   my $out = '';
+  ## Read in file { skip jshint lines }
   while($_ = <$fh>) {
     next if m{/[*] jshint};
+    ## Remove white space from content..
     $out .= tidy($_);
   }
+  ## Return content.
   return $out;
 }
 

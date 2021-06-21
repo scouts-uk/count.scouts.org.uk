@@ -44,13 +44,17 @@ my $config = LoadFile( $base.'/config.yaml' );
 my $json = JSON::XS->new->ascii->allow_nonref;
 
 $/=undef;
+## Read in javascript file
 open my $fh, '<', "$base/source/flow.js";
 my $contents = <$fh>;
 close $fh;
 
+## Connect to database
 my $dbh = DBI->connect( "dbi:mysql:$config->{'db'}{'name'}",
-  $config->{'db'}{'user'}, $config->{'db'}{'pass'}, { 'mysql_enable_utf8' => 1 } );
+  $config->{'db'}{'user'}, $config->{'db'}{'pass'},
+  { 'mysql_enable_utf8' => 1 } );
 
+## Get information about counties
 my $SQL_QUERY_COUNTY = '
 select distinct( o.username - 10000000) uid, o.name
   from object o,object d
@@ -59,6 +63,7 @@ select distinct( o.username - 10000000) uid, o.name
  order by o.name,uid
 ';
 
+## Get information about districts
 my $SQL_QUERY_DISTRICT = '
 select p.username - 10000000 as pid, o.username - 10000000 as uid,o.name
   from object o, object p
@@ -75,10 +80,12 @@ push @{ $t_dist->{ 1*$_->[0]} },   [ 1*$_->[1], $_->[2] ]
 
 $_->[2] = $t_dist->{ 1*$_->[0] } foreach @{$counties};
 
+## Create json structure...
 my $dists = $json->encode( $counties );
 
 print length $dists;
 
+## insert into into javascript and write out to working folder.
 $contents =~ s{/[*] [*]/.*?/[*] [*]/}{'/* */var str='.$dists.';/* */'}e;
 
 open $fh, '>', $base.'/working/script.js';
