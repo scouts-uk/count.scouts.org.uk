@@ -50,15 +50,24 @@ select r.object_id,r.census_id,
 ```
 ## Generate report for Peter...
 ```
-select o.object_id,        ot.name as type,
-       o.username as   id, o.name,
-       g.username as g_id, g.name as g_name,
-       d.username as d_id, d.name as d_name,
-       c.username as c_id, c.name as c_name,
+select o.object_id,
+       if( o.__index like '0690e4000064%', '10000003',
+       if( o.__index like '0690e40000c8%', '10000133',
+       if( o.__index like '0690e400012c%', '10000004',
+       if( o.__index like '0690e4000190%', '10000005','10000001')))) as x_id,
+       if( o.__index like '0690e4000064%', 'England',
+       if( o.__index like '0690e40000c8%', 'Wales',
+       if( o.__index like '0690e400012c%', 'Northern Ireland',
+       if( o.__index like '0690e4000190%', 'Scotland','Other')))) as x_name,
        r.username as r_id, r.name as r_name,
-       c20.yp_count as c2020,
-       c21.yp_count as c2021,
-       c22.yp_count as c2022,
+       c.username as c_id, c.name as c_name,
+       d.username as d_id, d.name as d_name,
+       g.username as g_id, g.name as g_name,
+       o.username as   id, o.name,
+       ot.name as type,
+       c20.yp_count as `Jan 2020`,
+       c21.yp_count as `Jan 2021`,
+       c22.yp_count as `Oct 2021`,
        c22.updated_at as updated
   from (((
          (select distinct object_id from short_count) a,
@@ -67,6 +76,8 @@ select o.object_id,        ot.name as type,
        ) left join short_count c20 on o.object_id = c20.object_id and c20.census_id = 20
        ) left join short_count c21 on o.object_id = c21.object_id and c21.census_id = 21
        ) left join short_count c22 on o.object_id = c22.object_id and c22.census_id = 22
- where o.parent_id = g.object_id and g.parent_id = d.object_id and d.parent_id = c.object_id and c.parent_id = r.object_id and ot.objecttype_id = o.objecttype_id
-       and o.objecttype_id in (10,11,12,13) and o.object_id = a.object_id;
+ where o.parent_id = g.object_id and g.parent_id = d.object_id and d.parent_id = c.object_id and
+       c.parent_id = r.object_id and ot.objecttype_id = o.objecttype_id and
+       o.objecttype_id in (10,11,12,13) and o.object_id = a.object_id
+ order by x_name,r_name,c_name,d_name,g_name,name;
 ```
