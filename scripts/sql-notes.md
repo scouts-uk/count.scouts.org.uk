@@ -50,26 +50,23 @@ select r.object_id,r.census_id,
 ```
 ## Generate report for Peter...
 ```
-drop table t99_a;
-create temporary table t99_a select distinct object_id from short_count;
-alter table t99_a add unique(object_id);
-
-drop table t99;
-create temporary table t99
-select o.object_id,
-       ot.name as type,
+select o.object_id,        ot.name as type,
        o.username as   id, o.name,
        g.username as g_id, g.name as g_name,
        d.username as d_id, d.name as d_name,
        c.username as c_id, c.name as c_name,
        r.username as r_id, r.name as r_name,
-	   c20.yp_count as c2020,
-	   c21.yp_count as c2021,
-	   c22.yp_count as c2022,
-	   c22.updated_at as updated
-  from (((t99_a a,objecttype ot, object o, object g, object d, object c, object r) left join short_count c20 on o.object_id = c20.object_id and c20.census_id = 20)
-        left join short_count c21 on o.object_id = c21.object_id and c21.census_id = 21)
-		left join short_count c22 on o.object_id = c22.object_id and c22.census_id = 22
+       c20.yp_count as c2020,
+       c21.yp_count as c2021,
+       c22.yp_count as c2022,
+       c22.updated_at as updated
+  from (((
+         (select distinct object_id from short_count) a,
+	 objecttype ot, object o, object g,
+         object d, object c, object r
+       ) left join short_count c20 on o.object_id = c20.object_id and c20.census_id = 20
+       ) left join short_count c21 on o.object_id = c21.object_id and c21.census_id = 21
+       ) left join short_count c22 on o.object_id = c22.object_id and c22.census_id = 22
  where o.parent_id = g.object_id and g.parent_id = d.object_id and d.parent_id = c.object_id and c.parent_id = r.object_id and ot.objecttype_id = o.objecttype_id
        and o.objecttype_id in (10,11,12,13) and o.object_id = a.object_id;
 ```
