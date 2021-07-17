@@ -1,5 +1,7 @@
 
 ## Copy sectional summaries from newreturn table (2020,2021 censuses)
+
+We need to load the sectional totals from the previous 2 census into short_count for comparison. The following SQL achieves this.
 ```sql
 delete from short_count where census_id in (20,21);
 insert into short_count
@@ -46,6 +48,14 @@ select r.object_id,r.census_id,
 
 ```
 ## Generate report for Peter...
+
+Data prepared for Peter - has details of Country, Region (if applicable), County, District,
+Group (if applicable) & Section along with the counts derived from the Scout Censuses for
+2020 (pre-pandemic) & 2021 (during pandemic) along with the counts from the head count
+system.
+
+**Note:** *For Scotland and Nothern Ireland the "Region" is Scotland and Northern Ireland respectively and for British Scouts Overseas and Overseas Branches is The Scout Association.*
+
 ```sql
 select o.object_id,
        if( o.__index like '0690e4000064%', '10000003',
